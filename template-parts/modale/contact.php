@@ -13,7 +13,7 @@
 				if (get_field('reference')) {
 					$refPhoto = get_field('reference');
 				}; 
-				echo do_shortcode('[contact-form-7 id="32" title="Formulaire de contact"]');
+				echo do_shortcode('[contact-form-7 id="969b1ed" title="Formulaire de contact"]');
 			?>
 		</div>	
 	</div>
