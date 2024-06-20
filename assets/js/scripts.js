@@ -1,8 +1,23 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // console.log("Script principal lancé !!!");
+    console.log("Script principal lancé !!!");
   
     const contactBtn = document.querySelectorAll(".contact");
     const popupOverlay = document.querySelector(".popup-overlay");
+
+    contactBtn.forEach((contact) => {
+      contact.addEventListener("click", () => {
+          console.log("Bouton contact cliqué");
+          popupOverlay.classList.remove("hidden");
+      });
+  });
+
+  popupOverlay.addEventListener("click", (e) => {
+      if (e.target.className == "popup-overlay") {
+          console.log("Overlay cliqué pour fermer");
+          popupOverlay.classList.add("hidden");
+      }
+  });
+
   
     // Gestion de la pagination des photos
     (function ($) {

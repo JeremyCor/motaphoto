@@ -103,11 +103,34 @@
     background-color: rgba(175, 174, 174, 0.151);
 }
 
-.wpcf7-form p .wpcf7-submit {     
+wpcf7-form p {
+    text-align: center; /* Assurez-vous que le texte est centré dans les paragraphes du formulaire */
+    background-color: rgba(175, 174, 174, 0.151);
+}
+
+/* CSS pour styliser uniquement le bouton d'envoi dans le formulaire */
+
+.wpcf7-form p .wpcf7-submit {
     font-family: 'Space Mono', monospace;
+    display: block; /* Affiche le bouton en tant que bloc pour occuper toute la largeur disponible */
+    width: calc(100% - 40px); /* Calcul de la largeur moins les marges (20px de chaque côté) */
+    margin: 20px auto; /* Centre le bouton horizontalement avec une marge autour */
+    padding: 10px; /* Ajoute du padding pour l'espace intérieur du bouton */
+    background-color: rgba(175, 174, 174, 0.151); /* Couleur de fond grise par défaut */
+    color: #000; /* Couleur du texte */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Effet de transition sur le hover */
     font-size: 14px;
     font-weight: 400;
+    box-sizing: border-box; /* Inclut les bordures et le padding dans le calcul de la largeur */
 }
+
+.wpcf7-form p .wpcf7-submit:hover {
+    background-color: #000000; /* Couleur de fond plus foncée au survol */
+    color: #fff; /* Couleur du texte en blanc au survol */
+}
+
 
 .wpcf7-response-output {
     width: 160%;

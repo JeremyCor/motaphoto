@@ -11,7 +11,7 @@
 
 	<!-- Lance la popup contact -->
 	<?php 
-        get_template_part ( 'template-parts/contact'); 		
+        get_template_part ( 'template-parts//modal/contact'); 		
     ?>
 
 <?php wp_footer(); ?>

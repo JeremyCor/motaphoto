@@ -1,6 +1,5 @@
 
-get_header();
-?>
+<? get_header();?>
 
 <div id="wrap">
     <section id="content">
