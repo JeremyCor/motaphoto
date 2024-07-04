@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
           url: ajaxurl,
           dataType: "html", // <-- Change dataType from 'html' to 'json'
           data: {
-            action: "nathalie_mota_load",
+            action: "motaphoto_load",
             nonce: nonce,
             paged: currentPage,
             categorie_id: categorie_id,

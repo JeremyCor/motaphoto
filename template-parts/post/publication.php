@@ -1,9 +1,6 @@
 <?php
 /**
  * Modal publication
- *
- * @package WordPress
- * @subpackage nathalie-mota theme
  */
 ?>
 

@@ -1,6 +1,4 @@
 <?php get_header(); ?>
-
-
 <div id="wrap">
       <section id="content">
         <h1>Nathalie Mota - Blog</h1>
@@ -10,8 +8,8 @@
             <?php while(have_posts()) : the_post(); ?>
                 <article>
                     <h2><?php the_title(); ?></h2>
-                    <p>Publié le <?php the_time('Y'); ?>
-                        <!-- is_page() permet de déterminer si la page en cours est une page -->
+                    <p>Publié le <?php the_time('d/m/Y'); ?>
+                        <!-- is_page() permet de déterminer si la page est en cours est une page -->
                         <?php if(!is_page()) : ?> dans <?php the_category(', '); ?><?php endif; ?>
                     </p>
                     <!-- is_singular() permet de déterminer si la page en cours est un post/article -->
@@ -35,6 +33,5 @@
 
       <!-- <aside id="sidebar">
       </aside> -->
-  </div>
-
+</div>
 <?php get_footer(); ?>

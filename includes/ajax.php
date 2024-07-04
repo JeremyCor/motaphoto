@@ -2,17 +2,13 @@
 /**
  * Complément de fonction.php
  * fonctions pour AJAX 
- */
-
-
-/**
 *  Génération de l'affichage des photos
 */  
 function nathalie_mota_load() { 
   // Vérification de sécurité
   if( 
 		! isset( $_REQUEST['nonce'] ) or 
-       	! wp_verify_nonce( $_REQUEST['nonce'], 'nathalie_mota_nonce' ) 
+       	! wp_verify_nonce( $_REQUEST['nonce'], 'motaphoto_nonce' ) 
     ) {
     	wp_send_json_error( "Vous n’avez pas l’autorisation d’effectuer cette action.", 403 );
       exit;
@@ -28,7 +24,7 @@ function nathalie_mota_load() {
 
   // Configuration du filtre
   $custom_args = array(
-    'post_type' => 'photo',
+    'post_type' => 'photographie',
         // 'posts_per_page' => 8,
       'posts_per_page' => get_option( 'posts_per_page'), // Valeur par défaut
       'orderby' => $orderby,
@@ -87,8 +83,8 @@ function nathalie_mota_load() {
     wp_reset_postdata();
     exit;
   }
-  add_action('wp_ajax_nathalie_mota_load', 'nathalie_mota_load');
-  add_action('wp_ajax_nopriv_nathalie_mota_load', 'nathalie_mota_load');
+  add_action('wp_ajax_motaphoto_load', 'motaphoto_load');
+  add_action('wp_ajax_nopriv_motaphoto_load', 'motaphoto_load');
 
 
 /**
@@ -97,7 +93,7 @@ function nathalie_mota_load() {
 function nathalie_mota_lightbox() {
   if( 
 		! isset( $_REQUEST['nonce'] ) or 
-       	! wp_verify_nonce( $_REQUEST['nonce'], 'nathalie_mota_nonce' ) 
+       	! wp_verify_nonce( $_REQUEST['nonce'], 'motaphoto_nonce' ) 
     ) {
     	wp_send_json_error( "Vous n’avez pas l’autorisation d’effectuer cette action.", 403 );
       exit;
@@ -114,7 +110,7 @@ function nathalie_mota_lightbox() {
   
   // Configuration du filtre
   $query_lightbox = new WP_Query([
-    'post_type' => 'photo',
+    'post_type' => 'photographie',
     'posts_per_page' => -1,
   ]);
  
@@ -134,7 +130,7 @@ if($query_lightbox->have_posts()) {
 wp_reset_postdata();
 exit;
  }
-add_action('wp_ajax_nathalie_mota_lightbox', 'nathalie_mota_lightbox');
-add_action('wp_ajax_nopriv_nathalie_mota_lightbox', 'nathalie_mota_lightbox');
+add_action('wp_ajax_motaphoto_lightbox', 'motaphoto_lightbox');
+add_action('wp_ajax_nopriv_motaphoto_lightbox', 'motaphoto_lightbox');
 
 ?>

@@ -1,45 +1,30 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("Script principal lancé !!!");
-  
-    const contactBtn = document.querySelectorAll(".contact");
-    const popupOverlay = document.querySelector(".popup-overlay");
+  // console.log("Script principal lancé !!!");
 
-    contactBtn.forEach((contact) => {
-      contact.addEventListener("click", () => {
-          console.log("Bouton contact cliqué");
-          popupOverlay.classList.remove("hidden");
+  const contactBtn = document.querySelectorAll(".contact");
+  const popupOverlay = document.querySelector(".popup-overlay");
+
+  // Gestion de la pagination des photos
+  (function ($) {
+    $(document).ready(function () {
+      // Gestion de la fermeture et de l'ouverture du menu
+      // dans une modale pour la version mobile
+      $(".btn-modal").click(function (e) {
+        $(".modal__content").toggleClass("animate-modal");
+        $(".modal__content").toggleClass("open");
+        $(".btn-modal").toggleClass("close");
       });
-  });
-
-  popupOverlay.addEventListener("click", (e) => {
-      if (e.target.className == "popup-overlay") {
-          console.log("Overlay cliqué pour fermer");
-          popupOverlay.classList.add("hidden");
-      }
-  });
-
-  
-    // Gestion de la pagination des photos
-    (function ($) {
-      $(document).ready(function () {
-        // Gestion de la fermeture et de l'ouverture du menu
-        // dans une modale pour la version mobile
-        $(".btn-modal").click(function (e) {
-          $(".modal__content").toggleClass("animate-modal");
-          $(".modal__content").toggleClass("open");
-          $(".btn-modal").toggleClass("close");
-        });
-        $("a").click(function () {
-          if ($(".modal__content").hasClass("open")) {
-            $(".modal__content").removeClass("animate-modal");
-            $(".modal__content").removeClass("open");
-            $(".btn-modal").removeClass("close");
-          }
-        });
+      $("a").click(function () {
+        if ($(".modal__content").hasClass("open")) {
+          $(".modal__content").removeClass("animate-modal");
+          $(".modal__content").removeClass("open");
+          $(".btn-modal").removeClass("close");
+        }
       });
-    })(jQuery);
+    });
+  })(jQuery);
 
-    // Ouverture de la pop contact au clic sur un lien contact
+  // Ouverture de la pop contact au clic sur un lien contact
   contactBtn.forEach((contact) => {
     contact.addEventListener("click", () => {
       popupOverlay.classList.remove("hidden");

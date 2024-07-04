@@ -1,6 +1,6 @@
 <?php 
    // [post_type] => post
-   // [post_type] => photo
+   // [post_type] => photographie
 
    // Initialisation de varaibles pour le filtres d'affichage des photos
    $order = "";          
@@ -17,7 +17,7 @@
      
    // Creation du filtre pour afficher les photos 
    $custom_args = array(
-      'post_type' => 'photo',
+      'post_type' => 'photographie',
       'posts_per_page' => 2,
       'order' => $order,
       'orderby'   => $orderby,

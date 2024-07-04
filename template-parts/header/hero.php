@@ -11,7 +11,7 @@
             
             if ($random_image) {
                 $post = $random_image[0];
-                $thumbnail_id = get_post_meta( $post->ID, "photo" , true);
+                $thumbnail_id = get_post_thumbnail_id($post->ID);
                 $thumbnail_url = wp_get_attachment_image_url($thumbnail_id, 'full');
             }          
         ?>
