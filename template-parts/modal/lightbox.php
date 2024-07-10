@@ -1,9 +1,6 @@
 <?php
 /**
  * Modal lightbox
- *
- * @package WordPress
- * @subpackage nathalie-mota theme
  */
 
  // Récupérer la taxonomie actuelle

@@ -11,31 +11,18 @@ function theme_enqueue_styles() {
     wp_enqueue_style('motaphoto-lightbox-style', get_stylesheet_directory_uri() . '/assets/css/lightbox.css', array(), filemtime(get_stylesheet_directory() . '/assets/css/lightbox.css'));
 
     ////   SWIPER   ////
-    // Swiper style
+    // Swiper style et script
     if (is_front_page()) {
         wp_enqueue_style('swiper-style', get_stylesheet_directory_uri() . '/assets/css/swiper-bundle.min.css');
+        wp_enqueue_script('swiper-script', get_stylesheet_directory_uri() . '/assets/js/swiper-bundle.min.js', array(), '9.2.0', true);
     }
 
-    // Activer les Dashicons sur le front-end
-    wp_enqueue_style('dashicons');
-}
-
-// Ajouter le hook pour enqueuer les scripts séparément
-add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
-function enqueue_custom_scripts() {
-    // Ajout du nonce et URL AJAX dans le jscript
-    wp_enqueue_script('custom-ajax', get_stylesheet_directory_uri() . '/assets/js/publication-ajax.js', array('jquery'), null, true );
-    wp_localize_script('custom-ajax', 'motaphoto_params', array(
-        'ajaxurl' => admin_url('admin-ajax.php'),
-        'nonce' => wp_create_nonce('motaphoto_nonce')
-    ));
-
+    ////   JAVASCRIPT   ////
     // Chargement du script JavaScript personnalisé
     wp_enqueue_script('script', get_template_directory_uri() . '/assets/js/scripts.js', array('jquery'), '1.0', true);
 
     // Scripts JS disponibles chargés uniquement sur la front page
     if (is_front_page()) {
-        wp_enqueue_script('swiper-script', get_stylesheet_directory_uri() . '/assets/js/swiper-bundle.min.js', array(), '9.2.0', true);
         wp_enqueue_script('motaphoto-scripts-filtres', get_theme_file_uri('/assets/js/filtres.js'), array('jquery', 'swiper-script'), filemtime(get_stylesheet_directory() . '/assets/js/filtres.js'), true);
         wp_enqueue_script('motaphoto-scripts-publication-ajax', get_theme_file_uri('/assets/js/publication-ajax.js'), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/publication-ajax.js'), true);
         wp_enqueue_script('motaphoto-scripts-lightbox-ajax', get_theme_file_uri('/assets/js/lightbox-front-page-ajax.js'), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/lightbox-front-page-ajax.js'), true);
@@ -43,24 +30,48 @@ function enqueue_custom_scripts() {
         // Script JS chargé pour toutes les autres pages
         wp_enqueue_script('motaphoto-scripts-lightbox-ajax', get_theme_file_uri('/assets/js/lightbox-ajax.js'), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/lightbox-ajax.js'), true);
     }
+
+    // Activer les Dashicons sur le front-end
+    wp_enqueue_style('dashicons');
 }
 
 ////   GESTION DES ARTICLES   ////
 // Ajouter la prise en charge des images mises en avant
-add_theme_support('post-thumbnails');
-set_post_thumbnail_size(600, 0, false);
-add_image_size('hero', 1450, 960, true);
-add_image_size('desktop-home', 600, 520, true);
-add_image_size('lightbox', 1300, 900, true);
+add_theme_support( 'post-thumbnails' );
 
-add_theme_support('title-tag');
+// permet de définir la taille des images mises en avant 
+// set_post_thumbnail_size(largeur, hauteur max, true = on adapte l'image aux dimensions)
+set_post_thumbnail_size( 600, 0, false );
 
+// Définir d'autres tailles d'images : 
+// les options de base WP : 
+//      'thumbnail': 150 x 150 hard cropped 
+//      'medium' : 300 x 300 max height 300px
+//      'medium_large' : resolution (768 x 0 infinite height)
+//      'large' : 1024 x 1024 max height 1024px
+//      'full' : original size uploaded
+add_image_size( 'hero', 1450, 960, true );
+add_image_size( 'desktop-home', 600, 520, true );
+add_image_size( 'lightbox', 1300, 900, true );
+
+// Ajouter automatiquement le titre du site dans l'en-tête du site
+add_theme_support( 'title-tag' );
+
+
+////   BOUTON CONTACT  ////
 // Shortcode permettant d'afficher le bouton de contact
 function contact_btn() {
-    return '<a href="#" id="contact_btn" class="contact">Contact</a>';
+    /** Code du bouton */
+    $button_html = '<a href="#" id="contact_btn" class="contact">Contact</a>';
+
+    /** On retourne le code  */
+    return $button_html;
 }
+
+/** On publie le shortcode  */
 add_shortcode('contact', 'contact_btn');
 
+// Ajouter le bouton de contact au menu principal
 function add_contact_button_to_menu($items, $args) {
     if ($args->theme_location == 'main') {
         $contact_btn = do_shortcode('[contact]');
@@ -71,7 +82,9 @@ function add_contact_button_to_menu($items, $args) {
 add_filter('wp_nav_menu_items', 'add_contact_button_to_menu', 10, 2);
 
 ////    Récupération de la valeur champs personnalisé ACF   ////
-function my_acf_load_value($variable, $field) {
+// $variable = nom de la variable dont on veut récupérer la valeur
+// $field = nom du champs personnalisés
+function my_acf_load_value( $variable, $field ) {
     // Initialisation de la valeur à retourner
     $return = "";
 
@@ -86,77 +99,26 @@ function my_acf_load_value($variable, $field) {
         }
     } else {
         // Gérer le cas où $field n'est pas un tableau
+        // Vous pouvez enregistrer une erreur ou prendre une autre action appropriée
         error_log('my_acf_load_value: $field is not an array');
     }
 
     return $return;
 }
 
+
+
 ////  AJAX  ////
-// Fonction pour charger les photos via AJAX
-function motaphoto_load() {
-    check_ajax_referer('motaphoto_nonce', 'nonce');
+// Partie pour gerer le padding de l'affichage des photos  
+include get_template_directory() . '/includes/ajax.php';
 
-    $paged = isset($_POST['paged']) ? intval($_POST['paged']) : 1;
-    $categorie_id = isset($_POST['categorie_id']) ? sanitize_text_field($_POST['categorie_id']) : '';
-    $format_id = isset($_POST['format_id']) ? sanitize_text_field($_POST['format_id']) : '';
-    $order = isset($_POST['order']) ? sanitize_text_field($_POST['order']) : 'DESC';
-    $orderby = isset($_POST['orderby']) ? sanitize_text_field($_POST['orderby']) : 'date';
 
-    error_log("Categorie ID: $categorie_id");
-    error_log("Format ID: $format_id");
-    error_log("Order: $order");
-
-    $meta_query = array('relation' => 'AND');
-
-    if (!empty($categorie_id)) {
-        $meta_query[] = array(
-            'key' => 'categorie-acf',
-            'compare' => 'LIKE',
-            'value' => $categorie_id,
-        );
-    }
-
-    if (!empty($format_id)) {
-        $meta_query[] = array(
-            'key' => 'format-acf',
-            'compare' => 'LIKE',
-            'value' => $format_id,
-        );
-    }
-
-    $custom_args = array(
-        'post_type' => 'photographie',
-        'posts_per_page' => get_option('posts_per_page'),
-        'order' => $order,
-        'orderby' => $orderby,
-        'paged' => $paged,
-        'meta_query' => $meta_query,
-    );
-
-    $query = new WP_Query($custom_args);
-
-    if ($query->have_posts()) {
-        while ($query->have_posts()) {
-            $query->the_post();
-            get_template_part('template-parts/post/publication');
-        }
-    } else {
-        echo '<p>Désolé. Aucun article ne correspond à cette demande.</p>';
-    }
-
-    wp_reset_postdata();
-    wp_die();
-}
-
-add_action('wp_ajax_motaphoto_load', 'motaphoto_load');
-add_action('wp_ajax_nopriv_motaphoto_load', 'motaphoto_load');
-
-// Enregistrement des menus
-function register_my_menu() {
+////   GESTION MENU   ////
+// créer un lien pour la gestion des menus dans l'administration
+// et activation d'un menu pour le header et d'un menu pour le footer
+// Visibles ensuite dans Apparence / Menus (after_setup_theme)
+function register_my_menu(){
     register_nav_menu('main', "Menu principal");
     register_nav_menu('footer', "Menu pied de page");
-}
-add_action('after_setup_theme', 'register_my_menu');
-
-?>
+ }
+ add_action('after_setup_theme', 'register_my_menu');

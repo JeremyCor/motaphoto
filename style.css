@@ -232,7 +232,7 @@ ul li {
     animation: move-down 2s 300ms both;
 }
 
-/* Pour faire apparaitre la moadle en descendant et avec agmentatation de l'opacité */
+/* Pour faire apparaitre la moadle en descendant et avec agmentation de l'opacité */
 @keyframes move-down {
     0% {
       transform: translateY(-400px);
@@ -419,45 +419,81 @@ input[type="submit"] {
 }
 
 /* HERO */
-.hero-area .hero-thumbnail {
-    position: relative;
-    margin: auto;
+
+.home__hero {
+    display: flex;
     align-items: center;
-    width: 100%;
-    max-height: 966px;    
-    overflow: hidden;
-}
-
-.hero-area img {    
-    margin: auto;
-    /* object-fit: contain; */
-    object-fit: cover;
-    object-position: 50% 50%;
-    min-width: 100%;
-    height: auto;
-    max-height: 966px;
-}
-
-.hero-area .title-hero {    
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
-    width: 100%;
-    text-transform: uppercase;
-    text-align: center;
-    font-size: 96px;
-    line-height: 142px;
-    font-style: italic;
+    justify-content: center;
+  }
+  
+  .home__hero__title {
     color: transparent;
-    /* text-shadow: 0 0 2px rgb(255, 255, 255), 0 0 2px rgb(255, 255, 255); */
-    /* text-stroke: 2px rgb(255, 255, 255); */
-    -webkit-text-stroke: 2px rgb(255, 255, 255);
-}
+    -webkit-text-stroke: 2px white;
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .home__hero__title {
+      font-size: 2.5rem;
+      text-align: center;
+    }
+  }
+  
+  .hero-background {
+    width: 100%;
+    height: 75vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat !important;
+  }
+  
+  .home__content__selection {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .home__content__selection {
+      position: absolute;
+      bottom: 35px;
+      width: calc(100% - 20px);
+      overflow-x: scroll;
+      margin-left: 20px;
+      height: 100%;
+      padding-top: 10px;
+      gap: 9px;
+    }
+  }
+  
+  .home__content__selection__filters {
+    display: flex;
+    justify-content: space-between;
+    width: calc(50% - 10px);
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .home__content__selection__filters {
+      width: initial;
+      gap: 9px;
+    }
+  }
+  
 
 /* FILTRES */
 form {    
     flex-wrap: nowrap;
+}
+
+.option-filter {
+    width: 260px;
+  height: 43px;
+  border: 1.3px solid #B8BBC2;
+  border-radius: 8px;
+  padding-top: 11px;
+  padding-right: 18px;
+  padding-bottom: 11px;
+  padding-left: 18px;
+  background-color: transparent;
 }
 
 .filter-area {
@@ -517,9 +553,9 @@ form {
 .filter-area .option-filter {
     width: 100%;
     height: 40px;
-    border: 1px solid #000000;
+    border: 1px solid #B8BBC2;
     background-color: #ffffff;
-    border-radius: 0;
+    border-radius: 8px;
     padding: 0 24px;
 }
 
@@ -565,12 +601,12 @@ form {
     -webkit-transform: rotate(0deg); 
 }
 
-.container-news {
+/*.container-news {
     width: 100%;
     max-width: 1440px;
     margin: 0 auto 20px;
     /* gap: 20px; */
-    flex-wrap: wrap;
+    /*flex-wrap: wrap;
     text-align: center;
     justify-content: center;
 }
@@ -578,7 +614,34 @@ form {
 .news-info {
     position: relative;  
     transition: all 0.5s ease-in-out;
+} */
+
+/* Nouvelle disposition photos */
+.container-news {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto 20px;
+    text-align: center;
 }
+
+.news-info {
+    position: relative;
+    transition: all 0.5s ease-in-out;
+    width: 565px;
+    height: 500px;
+    margin: 0 10px 20px;
+}
+
+.news-info img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    overflow: hidden;
+}
+/* Fin de la nouvelle dispo */
 
 .container-news .news-info {
     width: 565px;
@@ -672,7 +735,7 @@ form {
 .openLightbox {
     position: absolute;
     cursor: pointer;
-    background: url("./assets/img/fullscreen.png") center center / 100% 100%;
+    background: url("./assets/img/fullscreen.svg") center center / 100% 100%;
     background-repeat: no-repeat;
     width: 40px;
     height: 40px;

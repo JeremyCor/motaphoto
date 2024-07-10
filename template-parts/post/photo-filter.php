@@ -1,14 +1,15 @@
 <?php
-// Gestion des filtres d'affichage des photos en page d'accueil (front-page)       
+// Gestion des filtres d'affichage des photos en page d'accueil (front-page)  
+
+// Définir les variables si elles ne sont pas définies
+$categorie_id = isset($categorie_id) ? $categorie_id : '';
+$format_id = isset($format_id) ? $format_id : '';
+$order = isset($order) ? $order : 'desc';
+
 ?>
 
 <div class="filter-area swiper-container">
     <form class="flexrow swiper-wrapper" method="post" >
-    <!--  -->
-    <!-- $terms->term_id :  -->
-    <!-- $terms->taxonomy : nom de la taxonomie -->
-    <!-- $terms->name : nom de l'élément de la taxonomie -->
-    <!-- $terms->term_taxonomy_id : n° de l'élément de la taxonomie -->
         <div class="filterleft swiper-slide flexrow">
             <div id="filtre-categorie" class="select-filter flexcolumn">   
                 <span class="categorie_id-down dashicons dashicons-arrow-down select-close"></span>
@@ -18,7 +19,7 @@
                     <option id="categorie_0" value=""></option>
                     <?php
                         $categorie_acf = get_terms('categorie-acf', array('hide_empty' => false)); 
-                        foreach ( $categorie_acf as $terms) : 
+                        foreach ($categorie_acf as $terms) : 
                     ?>
                         <?php if($terms->term_taxonomy_id == $categorie_id): ?>
                             <option id="categorie_<?php echo $terms->term_taxonomy_id; ?>" value="<?php echo $terms->term_taxonomy_id; ?>" selected><?php echo $terms->name; ?></option>
@@ -36,7 +37,7 @@
                     <option id="format_0" value=""></option>
                     <?php
                         $format_acf = get_terms('format-acf', array('hide_empty' => false)); 
-                        foreach ( $format_acf as $terms) : 
+                        foreach ($format_acf as $terms) : 
                     ?>
                         <?php if($terms->term_taxonomy_id == $format_id): ?>
                             <option id="format_<?php echo $terms->term_taxonomy_id; ?>" value="<?php echo $terms->term_taxonomy_id; ?>" selected><?php echo $terms->name; ?></option>
