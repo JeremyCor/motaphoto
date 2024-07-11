@@ -1,22 +1,34 @@
 <?php 
-	// echo ('photo-detail.php');
-	//   Vérifier l'activation de ACF
-	if ( !function_exists('get_field')) return;
+// echo ('photo-detail.php');
+//   Vérifier l'activation de ACF
+if (!function_exists('get_field')) return;
 
-    // Récupérer la taxonomie actuelle
-    $term = get_queried_object();
-    $term_id  = my_acf_load_value('ID', $term);
+// Récupérer la taxonomie actuelle
+$term = get_queried_object();
+$term_id = my_acf_load_value('ID', $term);
 
-    // Récupération du nom de la catégorie et du format
-    $categorie  = my_acf_load_value('name', get_field('categorie-acf'));
-    // $categorie  = my_acf_load_value('name', get_field('categorie-cpt'));
+// Récupération des termes de la catégorie
+$categorie_terms = get_the_terms(get_the_ID(), 'categorie-acf');
+$categorie = '';
+if ($categorie_terms && !is_wp_error($categorie_terms)) {
+    foreach ($categorie_terms as $categ) {
+        $categorie .= $categ->name . ' ';
+    }
+}
 
-    $format = my_acf_load_value('name', get_field('format-acf'));
-    // $format = my_acf_load_value('name', get_field('format-cpt'));
-    $reference = get_field('reference');
-    $type = get_field('type');
-    $annee = get_field('annee');
-    $essais = get_field('categorie-acf');
+// Récupération des termes du format
+$format_terms = get_the_terms(get_the_ID(), 'format-acf');
+$format = '';
+if ($format_terms && !is_wp_error($format_terms)) {
+    foreach ($format_terms as $fmt) {
+        $format .= $fmt->name . ' ';
+    }
+}
+
+// Récupération des autres champs ACF
+$reference = get_field('reference');
+$type = get_field('type');
+$annee = get_field('annee');
 ?>
 
 <article class="container__photo flexcolumn">
@@ -37,7 +49,7 @@
                 <li>Catégorie :
                     <?php 
                         if($categorie) {
-                            echo $categorie;
+                            echo trim($categorie);
                         } else {
                             echo ('Inconnue');
                         }
@@ -46,7 +58,7 @@
                 <li>Format :             
                     <?php 
                         if($format) {
-                            echo $format;
+                            echo trim($format);
                         } else {
                             echo ('Inconnu');
                         }
@@ -62,7 +74,7 @@
                     ?>
                 </li>
                 <li>Année : 
-                    <?php echo the_time( 'Y' ); ?>
+                    <?php echo $annee ? $annee : the_time('Y'); ?>
                 </li>
             </ul>
         </div>
@@ -77,13 +89,12 @@
                 <button class="openLightbox" title="Afficher la photo en plein écran" alt="Afficher la photo en plein écran"
                     data-postid="<?php echo get_the_id(); ?>"       
                     data-arrow="false"
-                    data-nonce="<?php echo wp_create_nonce('motaphoto_lightbox'); ?>"
-                    data-action="motaphoto_lightbox"
-                    data-ajaxurl="<?php echo admin_url( 'admin-ajax.php' ); ?>"
+                    data-nonce="<?php echo wp_create_nonce('nathalie_mota_lightbox'); ?>"
+                    data-action="nathalie_mota_lightbox"
+                    data-ajaxurl="<?php echo admin_url('admin-ajax.php'); ?>"
                 >
                 </button>
             </form>
         </div>         
     </div>
 </article>
-

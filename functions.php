@@ -45,6 +45,7 @@ function enqueue_custom_scripts() {
     }
 }
 
+
 ////   GESTION DES ARTICLES   ////
 // Ajouter la prise en charge des images mises en avant
 add_theme_support('post-thumbnails');
@@ -107,23 +108,25 @@ function motaphoto_load() {
     error_log("Format ID: $format_id");
     error_log("Order: $order");
 
-    $meta_query = array('relation' => 'AND');
+    $tax_query = array('relation' => 'AND');
 
     if (!empty($categorie_id)) {
-        $meta_query[] = array(
-            'key' => 'categorie-acf',
-            'compare' => 'LIKE',
-            'value' => $categorie_id,
+        $tax_query[] = array(
+            'taxonomy' => 'categorie-acf',
+            'field' => 'term_id',
+            'terms' => $categorie_id,
         );
     }
 
     if (!empty($format_id)) {
-        $meta_query[] = array(
-            'key' => 'format-acf',
-            'compare' => 'LIKE',
-            'value' => $format_id,
+        $tax_query[] = array(
+            'taxonomy' => 'format-acf',
+            'field' => 'term_id',
+            'terms' => $format_id,
         );
     }
+
+    error_log("Tax Query: " . print_r($tax_query, true));
 
     $custom_args = array(
         'post_type' => 'photographie',
@@ -131,8 +134,10 @@ function motaphoto_load() {
         'order' => $order,
         'orderby' => $orderby,
         'paged' => $paged,
-        'meta_query' => $meta_query,
+        'tax_query' => $tax_query,
     );
+
+    error_log("Custom Args: " . print_r($custom_args, true));
 
     $query = new WP_Query($custom_args);
 
@@ -142,6 +147,7 @@ function motaphoto_load() {
             get_template_part('template-parts/post/publication');
         }
     } else {
+        error_log("Aucun article ne correspond à cette demande.");
         echo '<p>Désolé. Aucun article ne correspond à cette demande.</p>';
     }
 
@@ -152,7 +158,8 @@ function motaphoto_load() {
 add_action('wp_ajax_motaphoto_load', 'motaphoto_load');
 add_action('wp_ajax_nopriv_motaphoto_load', 'motaphoto_load');
 
-// Enregistrement des menus
+
+////   Enregistrement des menus   ////
 function register_my_menu() {
     register_nav_menu('main', "Menu principal");
     register_nav_menu('footer', "Menu pied de page");

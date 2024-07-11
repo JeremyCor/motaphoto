@@ -1,5 +1,4 @@
 // Script pour gérer les filtres d'affichage en page d'accueil (front-page)
-//
 console.log("Script filtres en ajax lancé !!!");
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -16,24 +15,24 @@ document.addEventListener("DOMContentLoaded", function() {
       console.log("Document ready");
 
       // Click event for category filter
-      $(".categorie-filter").click(function() {
-        categorie_id = $(this).data("id");
+      $("#categorie_id").change(function() {
+        categorie_id = $(this).val();
         currentPage = 1;
         console.log("Category filter clicked: ", categorie_id);
         loadPosts();
       });
 
       // Click event for format filter
-      $(".format-filter").click(function() {
-        format_id = $(this).data("id");
+      $("#format_id").change(function() {
+        format_id = $(this).val();
         currentPage = 1;
         console.log("Format filter clicked: ", format_id);
         loadPosts();
       });
 
       // Click event for sorting
-      $(".sort").click(function() {
-        order = $(this).data("order");
+      $("#date").change(function() {
+        order = $(this).val();
         currentPage = 1;
         console.log("Sort order clicked: ", order);
         loadPosts();
