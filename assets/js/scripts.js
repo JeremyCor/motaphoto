@@ -46,3 +46,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+////   Ouverture/Fermeture lightbox   ////
+ jQuery(document).ready(function($) {
+  $('.openLightbox').on('click', function() {
+      var imageUrl = $(this).data('image');
+      $('#lightboxImage').attr('src', imageUrl);
+      $('#lightboxModal').css('display', 'block');
+  });
+
+  $('.close-lightbox').on('click', function() {
+      $('#lightboxModal').css('display', 'none');
+  });
+
+  // Fermer la modale si l'utilisateur clique à l'extérieur de l'image
+  $(window).on('click', function(event) {
+      if ($(event.target).is('#lightboxModal')) {
+          $('#lightboxModal').css('display', 'none');
+      }
+  });
+});

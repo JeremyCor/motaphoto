@@ -1,9 +1,5 @@
 <?php
-/**
- * The single : ATRICLE PHOTO 
- *
-
- */
+/*Template Name: single-photographie */ 
 
 	get_header();
 ?>
@@ -62,12 +58,35 @@ if( have_posts() ) : while( have_posts() ) : the_post(); ?>
 		<div class="photo__others flexcolumn">
 			<h2>Vous aimerez aussi</h2>		
 			<div class="photo__others--images flexrow">
-				<?php 
-					get_template_part ( 'template-parts/post/photo-common');
-				 ?>
-			<button class="btn btn-all-photos" type="button">
-				<a href="<?php echo home_url( '/' ); ?>" aria-label="Page d'accueil de Nathalie Mota">Toutes les photos</a>
-			</button>
+			<?php
+            // Récupérer les catégories de l'article actuel
+            $current_post_id = get_the_ID();
+            $current_terms = wp_get_post_terms($current_post_id, 'categorie-acf', array('fields' => 'ids'));
+
+            // Arguments pour WP_Query pour récupérer les articles similaires
+            $related_args = array(
+                'post_type' => 'photographie',
+                'posts_per_page' => 2,
+                'post__not_in' => array($current_post_id),
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'categorie-acf',
+                        'field' => 'term_id',
+                        'terms' => $current_terms,
+                    ),
+                ),
+            );
+
+            $related_query = new WP_Query($related_args);
+
+            if ($related_query->have_posts()) : ?>
+                <?php while ($related_query->have_posts()) : $related_query->the_post(); ?>
+                    <?php get_template_part('template-parts/post/publication'); ?>
+                <?php endwhile; ?>
+            <?php else : ?>
+                <p>Désolé. Aucun article ne correspond à cette demande.</p>
+            <?php endif; ?>
+            <?php wp_reset_postdata(); ?>
 			</div>
 		</div>
 	</section>

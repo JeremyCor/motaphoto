@@ -10,42 +10,53 @@ document.addEventListener("DOMContentLoaded", function() {
     let format_id = "";
     let order = "DESC";
     let currentPage = 1;
+    let maxPages = parseInt($("#load-more").data("max-pages"), 10);
 
     $(document).ready(function() {
       console.log("Document ready");
 
-      // Click event for category filter
+      // Change event for category filter
       $("#categorie_id").change(function() {
         categorie_id = $(this).val();
         currentPage = 1;
-        console.log("Category filter clicked: ", categorie_id);
+        console.log("Category filter changed: ", categorie_id);
         loadPosts();
       });
 
-      // Click event for format filter
+      // Change event for format filter
       $("#format_id").change(function() {
         format_id = $(this).val();
         currentPage = 1;
-        console.log("Format filter clicked: ", format_id);
+        console.log("Format filter changed: ", format_id);
         loadPosts();
       });
 
-      // Click event for sorting
+      // Change event for sorting
       $("#date").change(function() {
         order = $(this).val();
         currentPage = 1;
-        console.log("Sort order clicked: ", order);
+        console.log("Sort order changed: ", order);
         loadPosts();
       });
 
-      function loadPosts() {
+      // Click event for load more
+      $(document).on('click', '#load-more', function(e) {
+        e.preventDefault();
+        if (currentPage < maxPages) {
+          currentPage++;
+          console.log("Loading more posts - Page: ", currentPage);
+          loadPosts(false); // false indicates it's not a full reload
+        }
+      });
+
+      function loadPosts(replace = true) {
         console.log("Loading posts with params - Category:", categorie_id, "Format:", format_id, "Order:", order);
         $.ajax({
-          url: motaphoto_params.ajaxurl,
+          url: $('#ajaxurl').val(),
           type: "POST",
           data: {
             action: "motaphoto_load",
-            nonce: motaphoto_params.nonce,
+            nonce: $('#nonce').val(),
             paged: currentPage,
             categorie_id: categorie_id,
             format_id: format_id,
@@ -53,9 +64,18 @@ document.addEventListener("DOMContentLoaded", function() {
             orderby: "date",
           },
           success: function(response) {
-            console.log("AJAX Response: ", response); // Log the response for debugging
+            //console.log("AJAX Response: ", response); // Log the response for debugging
             if (response) {
-              $(".container-news").html(response);
+              if (replace) {
+                $(".container-news").html(response);
+              } else {
+                $(".container-news").append(response);
+              }
+
+              // Check if there are more pages to load
+              if (currentPage >= maxPages) {
+                $("#load-more").hide();
+              }
             }
           },
           error: function(xhr, status, error) {

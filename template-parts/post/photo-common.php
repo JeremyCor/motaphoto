@@ -43,9 +43,9 @@
   
 ?>
  <!-- On vérifie si le résultat de la requête contient des articles -->
-  <?php if($query->have_posts()) : ?>
+<?php if($query->have_posts()) : ?>
    <article class="container-common flexrow">
-<!-- On parcourt chacun des articles résultant de la requête -->
+   <!-- On parcourt chacun des articles résultant de la requête -->
        <?php while($query->have_posts()) : ?>
            <?php $query->the_post();?> 
 
@@ -107,7 +107,7 @@
    <input type="hidden" name="max_pages" id="max_pages" value="<?php echo $max_pages; ?>">
    <input type="hidden" name="ajaxurl" id='ajaxurl' value="<?php echo admin_url( 'admin-ajax.php' ); ?>">
   <!-- c’est un jeton de sécurité, pour s’assurer que la requête provient bien de ce site, et pas d’un autre -->
-   <input type="hidden" name="nonce" id='nonce' value="<?php echo wp_create_nonce( 'nathalie_mota_nonce' ); ?>" > 
+   <input type="hidden" name="nonce" id='nonce' value="<?php echo wp_create_nonce( 'motaphoto_nonce' ); ?>" > 
 </form>  
 
 

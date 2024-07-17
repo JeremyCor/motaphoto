@@ -3,11 +3,12 @@
  * Modal lightbox
  */
 
- // Récupérer la taxonomie actuelle
- $term = get_queried_object();
- $term_id  = my_acf_load_value('ID', $term);
+// Récupérer la taxonomie actuelle
+$term = get_queried_object();
+$term_id  = $term->term_id;
 
- $categorie  = my_acf_load_value('name', get_field('categorie-acf'));
+// Récupération du nom de la catégorie
+$categorie = get_the_terms(get_the_ID(), 'categorie-acf');
 
 ?>
 <?php the_post_thumbnail('lightbox'); ?>

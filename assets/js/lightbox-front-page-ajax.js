@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
             idPhoto = $(e.target).data("postid");
           }
           recupIdData(idPhoto);
-          // console.log("photo n° " + idValue + " de la liste - id Photo: " +  idPhoto);
+           console.log("photo n° " + idValue + " de la liste - id Photo: " +  idPhoto);
 
           $(".lightbox").removeClass("hidden");
 

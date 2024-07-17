@@ -24,7 +24,7 @@ function theme_enqueue_styles() {
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 function enqueue_custom_scripts() {
     // Ajout du nonce et URL AJAX dans le jscript
-    wp_enqueue_script('custom-ajax', get_stylesheet_directory_uri() . '/assets/js/publication-ajax.js', array('jquery'), null, true );
+    //wp_enqueue_script('custom-ajax', get_stylesheet_directory_uri() . '/assets/js/publication-ajax.js', array('jquery'), null, true );
     wp_localize_script('custom-ajax', 'motaphoto_params', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
         'nonce' => wp_create_nonce('motaphoto_nonce')
@@ -37,7 +37,7 @@ function enqueue_custom_scripts() {
     if (is_front_page()) {
         wp_enqueue_script('swiper-script', get_stylesheet_directory_uri() . '/assets/js/swiper-bundle.min.js', array(), '9.2.0', true);
         wp_enqueue_script('motaphoto-scripts-filtres', get_theme_file_uri('/assets/js/filtres.js'), array('jquery', 'swiper-script'), filemtime(get_stylesheet_directory() . '/assets/js/filtres.js'), true);
-        wp_enqueue_script('motaphoto-scripts-publication-ajax', get_theme_file_uri('/assets/js/publication-ajax.js'), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/publication-ajax.js'), true);
+        //wp_enqueue_script('motaphoto-scripts-publication-ajax', get_theme_file_uri('/assets/js/publication-ajax.js'), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/publication-ajax.js'), true);
         wp_enqueue_script('motaphoto-scripts-lightbox-ajax', get_theme_file_uri('/assets/js/lightbox-front-page-ajax.js'), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/lightbox-front-page-ajax.js'), true);
     } else {
         // Script JS chargé pour toutes les autres pages
@@ -93,6 +93,7 @@ function my_acf_load_value($variable, $field) {
     return $return;
 }
 
+
 ////  AJAX  ////
 // Fonction pour charger les photos via AJAX
 function motaphoto_load() {
@@ -103,6 +104,7 @@ function motaphoto_load() {
     $format_id = isset($_POST['format_id']) ? sanitize_text_field($_POST['format_id']) : '';
     $order = isset($_POST['order']) ? sanitize_text_field($_POST['order']) : 'DESC';
     $orderby = isset($_POST['orderby']) ? sanitize_text_field($_POST['orderby']) : 'date';
+    $posts_per_page = 8;
 
     error_log("Categorie ID: $categorie_id");
     error_log("Format ID: $format_id");
@@ -130,7 +132,7 @@ function motaphoto_load() {
 
     $custom_args = array(
         'post_type' => 'photographie',
-        'posts_per_page' => get_option('posts_per_page'),
+        'posts_per_page' => $posts_per_page,
         'order' => $order,
         'orderby' => $orderby,
         'paged' => $paged,

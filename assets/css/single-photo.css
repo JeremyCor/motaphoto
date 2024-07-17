@@ -104,6 +104,10 @@
     padding: 75px 0;
 }
 
+/*.photo__others h2 {
+    padding-bottom: 75px;
+}*/
+
 .site__navigation__prev,
 .site__navigation__next {
     text-align: center;

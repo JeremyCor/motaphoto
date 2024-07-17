@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Gestion de la pagination de la lightbox
       $(".openLightbox").click(function (e) {
         e.preventDefault();
-
+        console.log("clic du bouton lightbox")
         // L'URL qui réceptionne les requêtes Ajax dans l'attribut "action" de <form>
         const ajaxurl = $(this).data("ajaxurl");
 
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
           idPhoto = $(this).data("postid");
         }
         recupIdData(idPhoto);
-        // console.log("photo n° " + idValue + " de la liste - id Photo: " +  idPhoto);
+         console.log("photo n° " + idValue + " de la liste - id Photo: " +  idPhoto);
 
         $(".lightbox").removeClass("hidden");
 
