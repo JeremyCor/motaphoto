@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
           var currentPage = 1;
           var maxPages = parseInt($('#max_pages').val());
 
-          /*$('#load-more').on('click', function(e) {
+          $('#load-more').on('click', function(e) {
               e.preventDefault();
               var button = $(this);
               var data = {
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
                       console.log("AJAX Error: ", status, error);
                   }
               });
-          }); */
+          });
       });
   })(jQuery);
 });

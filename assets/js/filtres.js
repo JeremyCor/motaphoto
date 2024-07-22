@@ -89,3 +89,25 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   })(jQuery);
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const filters = document.querySelectorAll('.option-filter');
+
+  filters.forEach(filter => {
+      const placeholder = filter.nextElementSibling;
+
+      filter.addEventListener('change', function () {
+          if (this.value) {
+              placeholder.style.display = 'none';
+          } else {
+              placeholder.style.display = 'block';
+          }
+      });
+
+      // Initial check
+      if (filter.value) {
+          placeholder.style.display = 'none';
+      }
+  });
+});

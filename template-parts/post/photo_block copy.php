@@ -62,7 +62,17 @@ $total_posts = $query->found_posts;
             $year = get_the_date('Y');
             ?>
             <div class="photo-item">
-                 
+                 <form>
+                    <input type="hidden" name="postid" class="postid" value="<?php the_id(); ?>">
+                    <button class="openLightbox" title="Afficher la photo en plein écran" alt="Afficher la photo en plein écran"
+                        data-postid="<?php echo get_the_id(); ?>"       
+                        data-arrow="false"
+                        data-nonce="<?php echo wp_create_nonce('motaphoto_lightbox'); ?>"
+                        data-action="motaphoto_lightbox"
+                        data-ajaxurl="<?php echo admin_url('admin-ajax.php'); ?>"
+                    >
+                    </button>
+                </form>
             </div>
         <?php endwhile; ?>
     <?php else : ?>

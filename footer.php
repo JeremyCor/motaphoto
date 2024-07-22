@@ -11,8 +11,10 @@
 
 	<!-- Lance la popup contact -->
 	<?php 
-        get_template_part ( 'template-parts//modal/contact'); 		
-    ?>
+		get_template_part('templates-parts/modal/lightbox');
+        get_template_part ( 'template-parts/modal/contact');
+		 ?> 		
+    
 
 <?php wp_footer(); ?>
 

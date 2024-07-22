@@ -24,7 +24,7 @@
     <?php the_post_thumbnail(); ?>
     <p><?php the_terms($post->ID, 'categorie-acf', ''); ?></p>
     <form>
-        <input type="lightbox hidden" name="postid" class="postid" value="<?php the_ID(); ?>">
+        <input type="hidden" name="postid" class="postid" value="<?php the_ID(); ?>">
         <a class="openLightbox" title="Afficher la photo en plein écran" alt="Afficher la photo en plein écran"
             data-postid="<?php echo get_the_ID(); ?>"    
             data-arrow="true" 

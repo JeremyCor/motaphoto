@@ -13,7 +13,7 @@
  */
 
 document.addEventListener("DOMContentLoaded", function () {
-  // sconsole.log("Script lightbox lancé !!!");
+   console.log("Script lightbox lancé !!!");
 
   // Récupération du tableau de toutes les photos selon les filtres
   let total_posts = "";

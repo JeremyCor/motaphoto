@@ -29,14 +29,11 @@ function enqueue_custom_scripts() {
     if (is_front_page()) {
         wp_enqueue_script('swiper-script', get_stylesheet_directory_uri() . '/assets/js/swiper-bundle.min.js', array(), '9.2.0', true);
         wp_enqueue_script('motaphoto-scripts-filtres', get_theme_file_uri('/assets/js/filtres.js'), array('jquery', 'swiper-script'), filemtime(get_stylesheet_directory() . '/assets/js/filtres.js'), true);
-        //wp_enqueue_script('motaphoto-scripts-publication-ajax', get_theme_file_uri('/assets/js/publication-ajax.js'), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/publication-ajax.js'), true);
-        //wp_enqueue_script('motaphoto-scripts-lightbox-ajax', get_theme_file_uri('/assets/js/lightbox-front-page-ajax.js'), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/lightbox-front-page-ajax.js'), true);
-    //} else {
-    //    wp_enqueue_script('motaphoto-scripts-lightbox-ajax', get_theme_file_uri('/assets/js/lightbox-ajax.js'), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/lightbox-ajax.js'), true);
+        wp_enqueue_script('motaphoto-scripts-publication-ajax', get_theme_file_uri('/assets/js/publication-ajax.js'), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/publication-ajax.js'), true);
+        wp_enqueue_script('motaphoto-scripts-lightbox-ajax', get_theme_file_uri('/assets/js/lightbox-front-page-ajax.js'), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/lightbox-front-page-ajax.js'), true);
+    } else {
+        wp_enqueue_script('motaphoto-scripts-lightbox-ajax', get_theme_file_uri('/assets/js/lightbox-ajax.js'), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/lightbox-ajax.js'), true);
     }
-    
-    // Script JS chargé pour toutes les pages incluant la page d'accueil
-    wp_enqueue_script('motaphoto-scripts-lightbox', get_theme_file_uri('/assets/js/lightbox.js'), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/lightbox.js'), true);
 }
 
 // GESTION DES ARTICLES

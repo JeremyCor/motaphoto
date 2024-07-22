@@ -61,9 +61,9 @@ $total_posts = $query->found_posts;
             $category = get_the_terms(get_the_ID(), 'categorie-acf')[0]->name;
             $year = get_the_date('Y');
             ?>
-            <div class="photo-item">
-                 
-            </div>
+            <a href="#" class="openLightbox" data-image="<?php echo esc_url($image_url); ?>" data-title="<?php echo esc_attr($title); ?>" data-category="<?php echo esc_attr($category); ?>" data-year="<?php echo esc_attr($year); ?>">
+                <img src="<?php echo esc_url($thumbnail_url); ?>" alt="<?php echo esc_attr($title); ?>">
+            </a>
         <?php endwhile; ?>
     <?php else : ?>
         <p>Désolé. Aucun article ne correspond à cette demande.</p>
