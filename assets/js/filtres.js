@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
 
         // Récupération du jeton de sécurité
-        const nonce = $("#nonce").val();
+        //const nonce = $("#nonce").val();
 
         // Récupération de l'adresse de la page	pour pointer Ajax
         const ajaxurl = $("#ajaxurl").val();
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
           dataType: "html", // <-- Change dataType from 'html' to 'json'
           data: {
             action: "motaphoto_load",
-            nonce: nonce,
+            //nonce: nonce,
             paged: 1,
             categorie_id: categorie_id,
             format_id: format_id,
