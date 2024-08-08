@@ -1,14 +1,19 @@
-<div class="lightbox hidden" id="lightbox">    
-    <button class="lightbox__close" title="Refermer cet agrandissement">Fermer</button>
-    <div class="lightbox__container">
-        <div class="lightbox__loader hidden"></div>
-        <div class="lightbox__container_info flexcolumn" id="lightbox__container_info"> 
-            <div class="lightbox__container_content flexcolumn" id="lightbox__container_content">
-                <!-- Contenu dynamique sera chargé ici via AJAX -->
-            </div>   
-            <button class="lightbox__next" aria-label="Voir la photo suivante" title="Photo suivante"></button>
-            <button class="lightbox__prev" aria-label="Voir la photo précédente" title="Photo précédente"></button>                     
-        </div>
-    </div> 
-</div>
+<?php
+/**
+ * Modal lightbox
+ *
+ */
 
+ // Récupérer la taxonomie actuelle
+ $term = get_queried_object();
+ $term_id  = my_acf_load_value('ID', $term);
+
+ $categorie  = my_acf_load_value('name', get_field('categorie-acf'));
+
+?>
+<?php the_post_thumbnail('lightbox'); ?>
+<h4 class="photo-title photo-title-<?php the_id(); ?>"><?php the_title(); ?></h4>
+<div class="lightbox__info flexrow">
+     <p class="photo-category-<?php the_id(); ?>"><?php echo $categorie; ?></p>
+    <p class="photo-year-<?php the_id(); ?>"><?php echo the_time( 'Y' ); ?></p>
+</div> 

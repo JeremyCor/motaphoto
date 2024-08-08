@@ -17,48 +17,67 @@
  *
  */
 
-document.addEventListener("DOMContentLoaded", function() {
-  (function($) {
-      $(document).ready(function() {
-          var currentPage = 1;
-          var maxPages = parseInt($('#max_pages').val());
-
-          $('#load-more').on('click', function(e) {
-              e.preventDefault();
-              var button = $(this);
-              var data = {
-                  action: 'motaphoto_load_more',
-                  paged: currentPage + 1,
-                  nonce: $('#nonce').val(),
-                  categorie_id: $('#categorie_id').val() || '',
-                  format_id: $('#format_id').val() || '',
-                  order: $('#order').val(),
-                  orderby: $('#orderby').val(),
-              }; 
-
-              console.log("Loading more posts - Page: ", currentPage + 1);
-
-              $.ajax({
-                  url: $('#ajaxurl').val(),
-                  type: 'POST',
-                  data: data,
-                  success: function(response) {
-                      if(response) {
-                          $('.container-news').append(response);
-                          currentPage++;
-                          if (currentPage >= maxPages) {
-                              button.hide();
-                          }
-                      } else {
-                          console.log('No more posts to load.');
-                          button.hide();
-                      }
-                  },
-                  error: function(xhr, status, error) {
-                      console.log("AJAX Error: ", status, error);
-                  }
-              });
+document.addEventListener("DOMContentLoaded", function () {
+    // Récupération des variables de PHP
+  
+    (function ($) {
+      $(document).ready(function () {
+        let currentPage = 1;
+  
+        // Gestion de la pagination des photos en page d'accueil
+        $("#load-more").click(function (e) {
+          e.preventDefault();
+  
+          // L'URL qui réceptionne les requêtes Ajax dans l'attribut "action" de <form>
+          // Récupération du jeton de sécurité
+          //const nonce = $("#nonce").val();
+  
+          // Récupération de l'adresse de la page	pour pointer Ajax
+          const ajaxurl = $("#ajaxurl").val();
+          // Récupération de la page affichée au moment du click
+          if (document.getElementById("currentPage") !== null) {
+            currentPage = document.getElementById("currentPage").value;
+          }
+          // Récupération des valeurs des variables du filtre au moment du click
+          const categorie_id = document.getElementById("categorie_id").value;
+          const format_id = document.getElementById("format_id").value;
+          let order = document.getElementById("date").value;
+          let orderby = "date";
+  
+          let max_pages = document.getElementById("max_pages").value;
+  
+          // currentPage + 1, pour pouvoir charger la page suivante
+          currentPage++;
+          document.getElementById("currentPage").value = currentPage;
+          // Si on est à la dernière page, on cache le bouton "Charger plus"
+          if (currentPage >= max_pages) {
+            $("#load-more").addClass("hidden");
+          } else {
+            $("#load-more").removeClass("hidden");
+          }
+          // Si on est à la première page, on cache le bouton "Précédent"
+          $.ajax({
+            type: "POST",
+            url: ajaxurl,
+            dataType: "html", // <-- Change dataType from 'html' to 'json'
+            data: {
+              action: "motaphoto_load",
+              //nonce: nonce,
+              paged: currentPage,
+              categorie_id: categorie_id,
+              format_id: format_id,
+              orderby: orderby,
+              order: order,
+            },
+  
+            success: function (res) {
+              $(".publication-list").append(res);
+  
+              // Mise à jour du n° de page affiché
+              document.getElementById("currentPage").value = currentPage;
+            },
           });
+        });
       });
-  })(jQuery);
-});
+    })(jQuery);
+  });

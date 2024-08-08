@@ -39,7 +39,7 @@
 }
 
 .lightbox__close{
-  background: url("assets/img/vector.svg") center center / 100% 100% no-repeat;
+  background: url("../img/vector.svg") center center / 100% 100% no-repeat;
   width: 25px;
   height: 25px;
   position: fixed;
@@ -49,12 +49,12 @@
 }
 
 .lightbox__prev {
-  background: url("assets/img/prev_white.svg") center center / 100% 100% no-repeat;
+  background: url("../img/prev_white.svg") center center / 100% 100% no-repeat;
   left: 20px;
 }
 
 .lightbox__next {
-  background: url("assets/img/next_white.svg") center center / 100% 100% no-repeat;
+  background: url("../img/next_white.svg") center center / 100% 100% no-repeat;
   right: 20px;
 }
 
@@ -128,7 +128,7 @@ max-width: 100%;
   width: 38px;
   height: 38px;
   opacity: .5;
-  background: url("../img/loader.png") center center no-repeat;
+  background: url("../img/loader.svg") center center no-repeat;
 }
 
 

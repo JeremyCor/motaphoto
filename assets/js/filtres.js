@@ -1,113 +1,179 @@
 // Script pour gérer les filtres d'affichage en page d'accueil (front-page)
 console.log("Script filtres en ajax lancé !!!");
 
-document.addEventListener("DOMContentLoaded", function() {
-  console.log("DOMContentLoaded event triggered");
-  (function($) {
-    console.log("jQuery function executed");
+document.addEventListener("DOMContentLoaded", function () {
+  const body = document.querySelector("body");
+  const allDashicons = document.querySelectorAll(".dashicons");
+  const allSelect = document.querySelectorAll("select");
+  const message = "<p>Désolé. Aucun article ne correspond à cette demande.<p>";
 
-    let categorie_id = "";
-    let format_id = "";
-    let order = "DESC";
-    let currentPage = 1;
-    let maxPages = parseInt($("#load-more").data("max-pages"), 10);
+  // Initialisation des variables des filtres au premier affichage du site
+  let categorie_id = "";
+  if (document.getElementById("categorie_id")) {
+    document.getElementById("categorie_id").value = "";
+  }
+  let format_id = "";
+  if (document.getElementById("format_id")) {
+    document.getElementById("format_id").value = "";
+  }
+  let order = "";
+  if (document.getElementById("date")) {
+    document.getElementById("date").value = "";
+  }
 
-    $(document).ready(function() {
-      console.log("Document ready");
+  let currentPage = 1;
+  let max_pages = 1;
+  let selectId = "";
 
-      // Change event for category filter
-      $("#categorie_id").change(function() {
-        categorie_id = $(this).val();
-        currentPage = 1;
-        console.log("Category filter changed: ", categorie_id);
-        loadPosts();
-      });
+  document.getElementById("currentPage").value = 1;
 
-      // Change event for format filter
-      $("#format_id").change(function() {
-        format_id = $(this).val();
-        currentPage = 1;
-        console.log("Format filter changed: ", format_id);
-        loadPosts();
-      });
+  // Gestion du déplacement des filtres horizontalement
+  const swiper = new Swiper(".swiper-container", {
+    freeMode: true,
+    grabCursor: true,
+    breakpoints: {
+      1200: {
+        grabCursor: false,
+        allowTouchMove: false,
+      },
+    },
+  });
 
-      // Change event for sorting
-      $("#date").change(function() {
-        order = $(this).val();
-        currentPage = 1;
-        console.log("Sort order changed: ", order);
-        loadPosts();
-      });
-
-      // Click event for load more
-      $(document).on('click', '#load-more', function(e) {
+  (function ($) {
+    $(document).ready(function () {
+      $(".option-filter").change(function (e) {
+        // Empêcher l'envoi classique du formulaire
         e.preventDefault();
-        if (currentPage < maxPages) {
-          currentPage++;
-          console.log("Loading more posts - Page: ", currentPage);
-          loadPosts(false); // false indicates it's not a full reload
-        }
-      });
 
-      function loadPosts(replace = true) {
-        console.log("Loading posts with params - Category:", categorie_id, "Format:", format_id, "Order:", order);
+        // Récupération du jeton de sécurité
+        const nonce = $("#nonce").val();
+
+        // Récupération de l'adresse de la page	pour pointer Ajax
+        const ajaxurl = $("#ajaxurl").val();
+
+        if (document.getElementById("max_pages") !== null) {
+          max_pages = document.getElementById("max_pages").value;
+        }
+
+        // Récupération des valeurs sélectionnées
+        let targetName = e.target.name;
+        let targetValue = e.target.value;
+
+        // Réaffectation de la valeur dans la variable correspondante
+        if (targetName === "categorie_id") {
+          categorie_id = targetValue;
+        }
+        if (targetName === "format_id") {
+          format_id = targetValue;
+        }
+        if (targetName === "date") {
+          order = targetValue;
+        }
+
+        let orderby = "date";
+
+        // Génération du nouvel affichage
         $.ajax({
-          url: $('#ajaxurl').val(),
           type: "POST",
+          url: ajaxurl,
+          dataType: "html", // <-- Change dataType from 'html' to 'json'
           data: {
             action: "motaphoto_load",
-            nonce: $('#nonce').val(),
-            paged: currentPage,
+            nonce: nonce,
+            paged: 1,
             categorie_id: categorie_id,
             format_id: format_id,
+            orderby: orderby,
             order: order,
-            orderby: "date",
           },
-          success: function(response) {
-            //console.log("AJAX Response: ", response); // Log the response for debugging
-            if (response) {
-              if (replace) {
-                $(".container-news").html(response);
-              } else {
-                $(".container-news").append(response);
-              }
+          success: function (res) {
+            $(".publication-list").empty().append(res);
+            // Récupération de la valeur du nouveau nombre de pages
+            let max_pages = document.getElementById("max_pages").value;
+            let nb_total_posts = 0;
 
-              // Check if there are more pages to load
-              if (currentPage >= maxPages) {
-                $("#load-more").hide();
-              }
+            // Affiche ou cache le bouton "Charger plus" en fonction du nombre de pages
+            if (currentPage >= max_pages) {
+              $("#load-more").addClass("hidden");
+            } else {
+              $("#load-more").removeClass("hidden");
             }
-          },
-          error: function(xhr, status, error) {
-            console.log("AJAX Error: ", status, error);
+
+            // Contrôle s'il y a des photos à afficher
+            if (document.getElementById("nb_total_posts") !== null) {
+              nb_total_posts = document.getElementById("nb_total_posts").value;
+            }
+
+            // Et affiche un message s'il n'y a aucune photo à afficher
+            if (nb_total_posts == 0) {
+              $(".publication-list").append(message);
+            }
+
+            // Réinitialisation du n° de page affiché
+            document.getElementById("currentPage").value = 1;
           },
         });
-      }
-
-      // Initial call to load posts
-      loadPosts();
+      });
     });
   })(jQuery);
-});
 
+  // Réinitialisation des flèches des select si on click en dehors
+  body.addEventListener("click", (e) => {
+    if (e.target.tagName != "select" && e.target.tagName != "SELECT") {
+      initArrow();
+    }
+  });
 
-document.addEventListener('DOMContentLoaded', function () {
-  const filters = document.querySelectorAll('.option-filter');
+  // Fonction pour rechercher un mot dans une variable
+  // retourne vrai si le mot est trouvé, si non retourne false
+  function findWord(word, str) {
+    return RegExp("\\b" + word + "\\b").test(str);
+  }
 
-  filters.forEach(filter => {
-      const placeholder = filter.nextElementSibling;
+  // Réinitialisation de l'affichage des flèches sur les select
+  const initArrow = () => {
+    console.log("Initialisation des fleches");
+    allDashicons.forEach((dashicons) => {
+      dashicons.classList.add("select-close");
+      dashicons.classList.remove("select-open");
+    });
+  };
 
-      filter.addEventListener('change', function () {
-          if (this.value) {
-              placeholder.style.display = 'none';
+  // Passer de la flèche qui descend à la flèqhe qui monte
+  // et inversement
+  // et force la flèche qui descend sur les 2 autres selects
+  const arrow = (arg) => {
+    allDashicons.forEach((dashicons) => {
+      if (findWord(arg, dashicons.className)) {
+        if (
+          findWord("select-close", dashicons.className) ||
+          findWord("select-open", dashicons.className)
+        ) {
+          // initArrow();
+          if (findWord("select-close", dashicons.className)) {
+            dashicons.classList.remove("select-close");
+            dashicons.classList.add("select-open");
           } else {
-              placeholder.style.display = 'block';
+            dashicons.classList.add("select-close");
+            dashicons.classList.remove("select-open");
           }
-      });
-
-      // Initial check
-      if (filter.value) {
-          placeholder.style.display = 'none';
+        }
       }
+    });
+  };
+
+  // Détection du click sur un select
+  // et modification de la flèche correpondante
+  allSelect.forEach((select) => {
+    select.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      // On contrôle si on a clické dans un autre select
+      if (select.id != selectId) {
+        initArrow();
+      }
+      selectId = select.id;
+      arrow(selectId);
+    });
   });
 });

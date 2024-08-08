@@ -19,5 +19,4 @@
             <h1 class="home__hero__title">Photographe Event</h1>
         </div>
     </div>  
-
 </div>

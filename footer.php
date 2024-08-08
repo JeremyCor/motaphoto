@@ -4,9 +4,6 @@
 			wp_nav_menu(array('theme_location' => 'footer')); 
 		?>		
 		<!-- Ajout du widget dans le pied de page -->	
-		<aside id="widget-area" >
-			<?php dynamic_sidebar( 'footer-widget' ); ?>
-		</aside>
 	</footer>
 
 	<!-- Lance la popup contact -->

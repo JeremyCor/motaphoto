@@ -13,7 +13,7 @@
  */
 
 document.addEventListener("DOMContentLoaded", function () {
-   console.log("Script lightbox lancé !!!");
+   console.log("Script lightbox-ajax.js lancé !!!");
 
   // Récupération du tableau de toutes les photos selon les filtres
   let total_posts = "";
@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Intialisation des données pour le filtrage
+    console.log("initialisation des données du filtre")
   let regex1 = /[(]/g;
   let regex2 = /[)]/g;
 
@@ -58,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // On retire ces éléments pour le filtrage suivant
       arrayIntial = arrayIntial.slice(`${next}`, -1);
+        console.log("récup des données text et transfert tableau js")
     }
   }
 
@@ -69,6 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let position = data[0].search("ID") + 7;
       if (data[0].slice(`${position}`) == arg) {
         idValue = i;
+        console.log("Régen photo dans le tableau")
       }
     }
   }
@@ -109,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
          console.log("photo n° " + idValue + " de la liste - id Photo: " +  idPhoto);
 
         $(".lightbox").removeClass("hidden");
+        console.log("Lightbox affichée");
 
         // On s'assure de le container est vide avant de charger le code
         $("#lightbox__container_content").empty();
@@ -166,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Affichage de la photo et des informations demandées
       $.changePhoto = function () {
         // Récupération du jeton de sécurité
-        const nonce = $("#nonce").val();
+        //const nonce = $("#nonce").val();
 
         // Récupération de l'adresse de la page	pour pointer Ajax
         const ajaxurl = $("#ajaxurl").val();
@@ -184,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
           dataType: "html", // <-- Change dataType from 'html' to 'json'
           data: {
             action: "motaphoto_lightbox",
-            nonce: nonce,
+            //nonce: nonce,
             photo_id: idPhoto,
           },
           success: function (res) {

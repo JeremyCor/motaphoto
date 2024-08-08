@@ -2,6 +2,7 @@
 /*Template Name: single-photographie */ 
 
 	get_header();
+	//wp_enqueue_script( 'motaphoto-scripts-lightbox-ajax', get_theme_file_uri( '/assets/js/lightbox-ajax.js' ), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/lightbox-ajax.js'), true );
 ?>
 
 <?php

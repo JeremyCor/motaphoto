@@ -47,22 +47,22 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-////   Ouverture/Fermeture lightbox   ////
- jQuery(document).ready(function($) {
-  $('.openLightbox').on('click', function() {
-      var imageUrl = $(this).data('image');
-      $('#lightboxImage').attr('src', imageUrl);
-      $('#lightboxModal').css('display', 'block');
-  });
+////   MENU MOBILE   ////
+/*document.addEventListener('DOMContentLoaded', function () {
+    const btnModal = document.querySelector('.btn-modal');
+    const modalContent = document.querySelector('.modal__content');
 
-  $('.close-lightbox').on('click', function() {
-      $('#lightboxModal').css('display', 'none');
-  });
+    btnModal.addEventListener('click', function () {
+        btnModal.classList.toggle('open');
+        if (modalContent.style.opacity === "1") {
+            modalContent.style.opacity = "0";
+            modalContent.style.height = "0";
+            modalContent.style.visibility = "hidden";
+        } else {
+            modalContent.style.opacity = "1";
+            modalContent.style.height = "100vh";
+            modalContent.style.visibility = "visible";
+        }
+    });
+}); */
 
-  // Fermer la modale si l'utilisateur clique à l'extérieur de l'image
-  $(window).on('click', function(event) {
-      if ($(event.target).is('#lightboxModal')) {
-          $('#lightboxModal').css('display', 'none');
-      }
-  });
-});

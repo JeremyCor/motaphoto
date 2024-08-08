@@ -13,7 +13,7 @@
  */
 
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("Script lightbox lancé !!!");
+    console.log("Script lightbox-front-page-ajax.js lancé !!!");
 
     // Récupération du tableau de toutes les photos selon les filtres
     let total_posts = "";
@@ -120,6 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     idPhoto = $(this).data("postid");
                 }
                 recupIdData(idPhoto);
+                idPhoto="15";
                 console.log("photo n° " + idValue + " de la liste - id Photo: " + idPhoto);
 
                 $(".lightbox").removeClass("hidden");
@@ -182,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Affichage de la photo et des informations demandées
             $.changePhoto = function () {
                 // Récupération du jeton de sécurité
-                const nonce = $("#nonce").val();
+                //const nonce = $("#nonce").val();
 
                 // Récupération de l'adresse de la page pour pointer Ajax
                 const ajaxurl = $("#ajaxurl").val();
@@ -200,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     dataType: "html",
                     data: {
                         action: "motaphoto_lightbox",
-                        nonce: nonce,
+                        //nonce: nonce,
                         photo_id: idPhoto,
                         categorie_id: 49,
                     },

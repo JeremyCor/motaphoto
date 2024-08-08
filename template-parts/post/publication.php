@@ -8,8 +8,8 @@
 
 <?php
     // Récupérer la taxonomie ACF actuelle
-    $term = get_queried_object();                                             
-    $term_id  = my_acf_load_value('ID', $term);
+    //s$term = get_queried_object();                                             
+    //$term_id  = my_acf_load_value('ID', $term);
     // Récupération du nom de la catégorie 
     $categorie  = my_acf_load_value('name', get_field('categorie-acf'));
 ?>
@@ -23,9 +23,10 @@
     </a>
     <?php the_post_thumbnail(); ?>
     <p><?php the_terms($post->ID, 'categorie-acf', ''); ?></p>
+
     <form>
         <input type="hidden" name="postid" class="postid" value="<?php the_ID(); ?>">
-        <a class="openLightbox" title="Afficher la photo en plein écran" alt="Afficher la photo en plein écran"
+        <a class="openLightbox"  title="Afficher la photo en plein écran" alt="Afficher la photo en plein écran"
             data-postid="<?php echo get_the_ID(); ?>"    
             data-arrow="true" 
         >
