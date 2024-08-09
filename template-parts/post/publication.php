@@ -8,8 +8,8 @@
 
 <?php
     // Récupérer la taxonomie ACF actuelle
-    //s$term = get_queried_object();                                             
-    //$term_id  = my_acf_load_value('ID', $term);
+    $term = get_queried_object();                                             
+    $term_id  = my_acf_load_value('ID', $term);
     // Récupération du nom de la catégorie 
     $categorie  = my_acf_load_value('name', get_field('categorie-acf'));
 ?>

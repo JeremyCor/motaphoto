@@ -31,6 +31,7 @@ function motaphoto_theme_enqueue() {
     
     // Script JS disponnibles chargé uniquement avec front_page 
     if (is_front_page()) {
+        error_log('Front page detected');
         wp_enqueue_script( 'motaphoto-scripts-filtres', get_theme_file_uri( '/assets/js/filtres.js' ), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/filtres.js'), true );   
         wp_enqueue_script( 'motaphoto-scripts-publication-ajax', get_theme_file_uri( '/assets/js/publication-ajax.js' ), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/publication-ajax.js'), true );
         wp_enqueue_script( 'motaphoto-scripts-lightbox-ajax', get_theme_file_uri( '/assets/js/lightbox-front-page-ajax.js' ), array('jquery'), filemtime(get_stylesheet_directory() . '/assets/js/lightbox-front-page-ajax.js'), true );
@@ -42,9 +43,6 @@ function motaphoto_theme_enqueue() {
 add_action( 'wp_enqueue_scripts', 'motaphoto_theme_enqueue' );
 
 
-
-
-
 // Ajouter la prise en charge des images mises en avant
 add_theme_support('post-thumbnails');
 set_post_thumbnail_size(600, 0, false);
@@ -53,6 +51,8 @@ add_image_size('desktop-home', 600, 520, true);
 add_image_size('lightbox', 1300, 900, true);
 
 add_theme_support('title-tag');
+
+
 
 // Shortcode permettant d'afficher le bouton de contact
 function contact_btn() {
